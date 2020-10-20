@@ -1,0 +1,41 @@
+CREATE TABLE departamento ( 
+Codigo INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+nome VARCHAR (100) NOT NULL
+);
+
+CREATE TABLE funcionario ( 
+Codigo INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+nome VARCHAR (100) NOT NULL,
+salario FLOAT NOT NULL,
+Codigo_departamento INT NOT NULL
+);
+
+
+ALTER TABLE funcionario
+ADD CONSTRAINT FK_departamento
+FOREIGN KEY (codigo_departamento)
+REFERENCES departamento (codigo);
+
+INSERT INTO departamento (codigo, nome) VALUES ( 1, 'RH');
+INSERT INTO departamento (codigo, nome) VALUES (2, 'TI');
+INSERT INTO departamento (codigo, nome) VALUES (3, 'Financeiro');
+
+INSERT INTO funcionario (codigo, nome, salario, codigo_departamento) VALUES (1, 'João Silva', 2000, 1);
+INSERT INTO funcionario (codigo, nome, salario, codigo_departamento) VALUES (2, 'Maria Pereira', '3000', 2);
+INSERT INTO funcionario (codigo, nome, salario, codigo_departamento) VALUES (3, 'José Peres', 4000, 2);
+INSERT INTO funcionario (codigo, nome, salario, codigo_departamento) VALUES (4, 'Tereza Cristina', 3000, 3);
+INSERT INTO funcionario (codigo, nome, salario, codigo_departamento) VALUES (5, 'Francisco José', '1500', 3);
+
+UPDATE funcionario SET salario = 5000 WHERE Codigo = 3;
+
+SELECT
+	departamento.nome,
+    COUNT(funcionario.Codigo),
+    sum(funcionario.salario)
+FROM
+	funcionario
+    INNER JOIN departamento ON departamento.Codigo = funcionario.Codigo_departamento
+GROUP BY
+	1;
+	
+DELETE FROM `departamento` WHERE Codigo = 5;
